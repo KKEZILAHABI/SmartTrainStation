@@ -1,0 +1,132 @@
+Marxeen Nyambura — 3D Environment Modeler
+FOCUS: VRML modeling
+FOLDERS: vrml/
+Files Person A works on:
+vrml/station.wrl
+vrml/platform.wrl
+vrml/lighting.wrl
+vrml/objects/ticket_machine.wrl
+vrml/objects/info_display.wrl
+vrml/objects/doors.wrl
+
+   What goes inside these files:
+Geometric shapes (Box, Cylinder, Extrusion, ElevationGrid)
+Materials (colors, texture references)
+Station layout (walls, floor, rails)
+Light nodes (PointLight, DirectionalLight)
+Objects with unique DEF names for animation:
+    DEF TicketMachine Transform
+    DEF DisplayBoard Transform
+    DEF SlidingDoor Transform
+
+
+
+Sam Ngugi — Train & Object Animations
+FOCUS: Movement + lighting animations
+FOLDERS: scripts/animation/
+   Files Person B works on:
+scripts/animation/move_train.m
+scripts/animation/animate_doors.m
+scripts/animation/animate_lights.m
+scripts/animation/path_data.mat
+
+   What goes inside:
+move_train.m
+    Loads train object
+    Defines train path (x,y,z positions)
+    Controls movement speed
+    Links to VRML nodes (ROUTE commands or vrrotvec)
+animate_doors.m
+    Controls door opening/closing (rotation or translation)
+    Triggered when train arrives
+animate_lights.m
+    Animated brightness changes
+path_data.mat
+    Precomputed arrays for train movement (timesteps, coordinates)
+
+
+Dan Mutisya — Smart Systems (Timetables, Displays, Logic)
+FOCUS: Schedules, real-time updates, logic connections
+FOLDERS: scripts/systems/ and data/
+   Files Person C works on:
+data/train_schedule.csv
+scripts/systems/timetable.m
+scripts/systems/update_display.m
+scripts/systems/sync_train_to_schedule.m
+
+   What goes inside:
+train_schedule.csv
+Columns: TrainID, Arrival, Departure, Destination, Platform
+Example:
+T001,08:20,08:30,Nairobi,1
+
+timetable.m
+Reads CSV file
+Converts to timetable object
+Calculates next arriving train
+
+update_display.m
+Updates VRML 3D text nodes for arrival/departure screens
+
+sync_train_to_schedule.m
+Connects schedule timing → train movement timing
+Tells animation when to start
+
+Jacton Odongo — User Interaction + Navigation
+FOCUS: First-person camera, button clicks, user actions
+FOLDERS: scripts/interaction/
+   Works on:
+scripts/interaction/first_person_navigation.m
+scripts/interaction/ticket_interaction.m
+scripts/interaction/display_interaction.m
+
+   What goes inside:
+first_person_navigation.m
+    WASD key movement
+    Mouse-look movement
+    Collision limits (don't walk through walls)
+ticket_interaction.m
+    Detect click on ticket machine
+    Trigger "ticket purchased" display
+    Play beep sound
+display_interaction.m
+    Click to show detailed schedule
+    Maybe rotate camera towards screen
+
+
+  Jilton Chwanya — Integrator / Coordinator
+FOCUS: Putting everything together
+FOLDERS: scripts/init/ and project root
+   Files Person E works on:
+main.mlx
+scripts/init/load_station.m
+scripts/init/load_train.m
+scripts/init/setup_camera.m
+scripts/init/assemble_scene.m
+scripts/utils/reset_scene.m
+scripts/utils/helpers.m
+   What goes inside:
+main.mlx
+    Runs entire simulation
+    Loads environment
+    Starts animations
+    Starts interaction systems
+load_station.m
+    Imports station.wrl
+    Places all VRML objects
+load_train.m
+    Loads train model
+    Applies initial position
+setup_camera.m
+    Sets initial user camera position
+    Starts navigation scripts
+assemble_scene.m
+    Combines all subsystems:
+        display update
+        animation
+        schedule sync
+        interactions
+helpers.m
+    Utility functions (get VRML node, set field value, etc.)
+reset_scene.m
+    Reset simulation to start state
